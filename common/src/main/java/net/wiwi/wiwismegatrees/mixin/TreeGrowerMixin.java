@@ -1,9 +1,8 @@
 package net.wiwi.wiwismegatrees.mixin;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
@@ -43,45 +42,25 @@ public abstract class TreeGrowerMixin {
             RandomSource random,
             CallbackInfoReturnable<Boolean> cir
     ) {
-        if (!this.name.equals("oak")) return;
+        var registry = level.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE);
 
-        WiwisMegaTrees.LOGGER.debug("Mixin executing for Oak at pos: {}", pos);
-        for (int dx = 0; dx >= -1; dx --) {
-            for (int dz = 0; dz >= -1; dz--) {
-                if (isTwoByTwo(state, level, pos, dx, dz)) {
-                    WiwisMegaTrees.LOGGER.debug("2 x 2 sapling pattern detected for Oak");
+        if (this.name.equals("oak")) {
+            var holderOpt = registry.getHolder(ModConfiguredFeatures.OAK_MEGA_TREE_KEY);
 
-
-                    var registry = level.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE);
-
-                    var holderOpt = registry.getHolder(ModConfiguredFeatures.OAK_MEGA_TREE_KEY);
-
-                    if (holderOpt.isEmpty()) {
-                       // restoreSaplings(level, pos, state, dx, dz);
-                        //cir.setReturnValue(false);
-                        WiwisMegaTrees.LOGGER.error("mega_oak configured feature not found");
-                        return;
-                    }
-
-                    clearSaplings(level, pos, dx, dz);
-
-                    ConfiguredFeature<?, ?> feature = holderOpt.get().value();
-
-                    boolean success = feature.place(level, generator, random, pos.offset(dx, 0, dz));
-
-                    if (!success) {
-                        WiwisMegaTrees.LOGGER.error("Failed to generate mega oak tree");
-                        restoreSaplings(level, pos, state, dx, dz);
-                    } else {
-                        WiwisMegaTrees.LOGGER.info("Mega oak generated successfully");
-                    }
-
-                    cir.setReturnValue(success);
-                    return;
-                }
+            if (holderOpt.isEmpty()) {
+                WiwisMegaTrees.LOGGER.error("mega_oak configured feature not found");
+                return;
             }
+            growMegaTree(state, level, pos, generator, random, holderOpt, cir);
+        } else if (this.name.equals("birch")) {
+            var holderOpt = registry.getHolder(ModConfiguredFeatures.BIRCH_MEGA_TREE_KEY);
+
+            if (holderOpt.isEmpty()) {
+                WiwisMegaTrees.LOGGER.error("mega_birch configured feature not found");
+                return;
+            }
+            growMegaTree(state, level, pos, generator, random, holderOpt, cir);
         }
-        WiwisMegaTrees.LOGGER.debug("2x2 sapling pattern not detected for Oak");
     }
 
     @Unique
@@ -108,5 +87,29 @@ public abstract class TreeGrowerMixin {
         level.setBlock(pos.offset(dx + 1, 0, dz), state, 4);
         level.setBlock(pos.offset(dx, 0, dz + 1), state, 4);
         level.setBlock(pos.offset(dx + 1, 0, dz + 1), state, 4);
+    }
+
+    @Unique
+    private static void growMegaTree(BlockState state, ServerLevel level, BlockPos pos, ChunkGenerator generator, RandomSource random, Optional<Holder.Reference<ConfiguredFeature<?, ?>>> holderOpt, CallbackInfoReturnable<Boolean> cir) {
+        for (int dx = 0; dx >= -1; dx--) {
+            for (int dz = 0; dz >= -1; dz--) {
+                if (isTwoByTwo(state, level, pos, dx, dz)) {
+
+                    clearSaplings(level, pos, dx, dz);
+
+                    ConfiguredFeature<?, ?> feature = holderOpt.get().value();
+
+                    boolean success = feature.place(level, generator, random, pos.offset(dx, 0, dz));
+
+                    if (!success) {
+                        WiwisMegaTrees.LOGGER.error("Failed to generate mega tree");
+                        restoreSaplings(level, pos, state, dx, dz);
+                    }
+
+                    cir.setReturnValue(success);
+                    return;
+                }
+            }
+        }
     }
 }
