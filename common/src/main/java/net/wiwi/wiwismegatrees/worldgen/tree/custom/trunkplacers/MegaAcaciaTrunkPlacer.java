@@ -15,8 +15,8 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.GiantTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.wiwi.wiwismegatrees.worldgen.tree.custom.ModTrunkPlacers;
 import org.apache.commons.compress.utils.Lists;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
@@ -29,12 +29,12 @@ public class MegaAcaciaTrunkPlacer extends GiantTrunkPlacer {
     }
 
     @Override
-    protected TrunkPlacerType<?> type() {
+    protected @NotNull TrunkPlacerType<?> type() {
         return ModTrunkPlacers.MEGA_ACACIA_TRUNK_PLACER.get();
     }
 
     @Override
-    public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader levelSimulatedReader, BiConsumer<BlockPos, BlockState> biConsumer, RandomSource randomSource, int height, BlockPos blockPos, TreeConfiguration treeConfiguration) {
+    public @NotNull List<FoliagePlacer.FoliageAttachment> placeTrunk(@NotNull LevelSimulatedReader levelSimulatedReader, @NotNull BiConsumer<BlockPos, BlockState> biConsumer, @NotNull RandomSource randomSource, int height, @NotNull BlockPos blockPos, @NotNull TreeConfiguration treeConfiguration) {
         List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
         list.addAll(super.placeTrunk(levelSimulatedReader, biConsumer, randomSource, height, blockPos, treeConfiguration));
 
@@ -56,7 +56,7 @@ public class MegaAcaciaTrunkPlacer extends GiantTrunkPlacer {
                 branchEnd = branchStart + m / 2;
 
                 BlockPos pos = blockPos.offset(k, branchStart + m / 2, l);
-                this.placeLog(levelSimulatedReader, biConsumer, randomSource, pos, treeConfiguration, (blockState) -> (BlockState)blockState.trySetValue(RotatedPillarBlock.AXIS, this.getLogAxis(blockPos, pos)));
+                this.placeLog(levelSimulatedReader, biConsumer, randomSource, pos, treeConfiguration, (blockState) -> blockState.trySetValue(RotatedPillarBlock.AXIS, this.getLogAxis(blockPos, pos)));
             }
 
             list.add(new FoliagePlacer.FoliageAttachment(blockPos.offset(k, branchEnd + 1, l), 2 + randomSource.nextInt(2), false));

@@ -3,8 +3,6 @@ package net.wiwi.wiwismegatrees.worldgen.tree.custom;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
-import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
-import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.wiwi.wiwismegatrees.PlatformHandler;
 import net.wiwi.wiwismegatrees.WiwisMegaTrees;
 import net.wiwi.wiwismegatrees.worldgen.tree.custom.foliageplacers.MegaAcaciaFoliagePlacer;
