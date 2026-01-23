@@ -3,6 +3,7 @@ package net.wiwi.wiwismegatrees.fabric;
 import net.fabricmc.api.ModInitializer;
 
 import net.wiwi.wiwismegatrees.WiwisMegaTrees;
+import net.wiwi.wiwismegatrees.worldgen.tree.custom.ModFoliagePlacers;
 import net.wiwi.wiwismegatrees.worldgen.tree.custom.ModTrunkPlacers;
 
 public final class WiwisMegaTreesFabric implements ModInitializer {
@@ -12,6 +13,7 @@ public final class WiwisMegaTreesFabric implements ModInitializer {
         // However, some things (like resources) may still be uninitialized.
         // Proceed with mild caution.
         ModTrunkPlacers.init();
+        ModFoliagePlacers.init();
 
         // Run our common setup.
         WiwisMegaTrees.init();

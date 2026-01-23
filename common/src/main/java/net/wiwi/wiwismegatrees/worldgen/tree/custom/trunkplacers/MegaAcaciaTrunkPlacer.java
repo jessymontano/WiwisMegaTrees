@@ -1,6 +1,5 @@
 package net.wiwi.wiwismegatrees.worldgen.tree.custom.trunkplacers;
 
-import com.google.common.collect.Lists;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
@@ -15,21 +14,23 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.GiantTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.wiwi.wiwismegatrees.worldgen.tree.custom.ModTrunkPlacers;
+import org.apache.commons.compress.utils.Lists;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-public class MegaOakTrunkPlacer extends GiantTrunkPlacer {
-    public static final MapCodec<MegaOakTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec(
-            (instance) -> trunkPlacerParts(instance).apply(instance, MegaOakTrunkPlacer::new));
+public class MegaAcaciaTrunkPlacer extends GiantTrunkPlacer {
+    public static MapCodec<MegaAcaciaTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec(
+            ( instance ) -> trunkPlacerParts(instance).apply(instance, MegaAcaciaTrunkPlacer::new));
 
-    public MegaOakTrunkPlacer(int i, int j, int k) {
+    public MegaAcaciaTrunkPlacer(int i, int j, int k) {
         super(i, j, k);
     }
 
     @Override
     protected TrunkPlacerType<?> type() {
-        return ModTrunkPlacers.MEGA_OAK_TRUNK_PLACER.get();
+        return ModTrunkPlacers.MEGA_ACACIA_TRUNK_PLACER.get();
     }
 
     @Override
@@ -37,23 +38,30 @@ public class MegaOakTrunkPlacer extends GiantTrunkPlacer {
         List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
         list.addAll(super.placeTrunk(levelSimulatedReader, biConsumer, randomSource, height, blockPos, treeConfiguration));
 
-        for (int b = 0; b < 2; b++) {
-            int j = Mth.nextInt(randomSource, (int)(height * 0.6F), height - 2);
-            float f = randomSource.nextFloat() * Mth.TWO_PI;
+        int branches = 3 + randomSource.nextInt(2);
+        int branchStart = Mth.nextInt(randomSource, height / 2, height - 3);
+        int branchEnd = height - 1;
+
+        for (int b = 0; b < branches; b++) {
+            float f = (float)(b * (Math.PI * 2 / branches)) + randomSource.nextFloat() * 0.4F;
             int k = 0;
             int l = 0;
 
-            int branchLength = 4 + randomSource.nextInt(2);
+            int branchLength = 6 + randomSource.nextInt(3);
 
             for(int m = 0; m < branchLength; ++m) {
-                k = (int)(1.5F + Mth.cos(f) * (float)m);
-                l = (int)(1.5F + Mth.sin(f) * (float)m);
-                BlockPos pos = blockPos.offset(k, j - 2 + m / 2, l);
+                k = (int)(Mth.cos(f) * (float)m);
+                l = (int)(Mth.sin(f) * (float)m);
+
+                branchEnd = branchStart + m / 2;
+
+                BlockPos pos = blockPos.offset(k, branchStart + m / 2, l);
                 this.placeLog(levelSimulatedReader, biConsumer, randomSource, pos, treeConfiguration, (blockState) -> (BlockState)blockState.trySetValue(RotatedPillarBlock.AXIS, this.getLogAxis(blockPos, pos)));
             }
 
-            list.add(new FoliagePlacer.FoliageAttachment(blockPos.offset(k, j+2  , l), 2 + randomSource.nextInt(2), false));
+            list.add(new FoliagePlacer.FoliageAttachment(blockPos.offset(k, branchEnd + 1, l), 2 + randomSource.nextInt(2), false));
         }
+
         return list;
     }
 

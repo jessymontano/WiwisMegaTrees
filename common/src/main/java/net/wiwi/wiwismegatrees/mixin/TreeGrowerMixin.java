@@ -60,6 +60,14 @@ public abstract class TreeGrowerMixin {
                 return;
             }
             growMegaTree(state, level, pos, generator, random, holderOpt, cir);
+        } else if (this.name.equals("acacia")) {
+            var holderOpt = registry.getHolder(ModConfiguredFeatures.ACACIA_MEGA_TREE_KEY);
+
+            if (holderOpt.isEmpty()) {
+                WiwisMegaTrees.LOGGER.error("mega_acacia configured feature not found");
+                return;
+            }
+            growMegaTree(state, level, pos, generator, random, holderOpt, cir);
         }
     }
 
