@@ -8,6 +8,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.MangrovePropaguleBlock;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -81,6 +82,15 @@ public abstract class TreeGrowerMixin {
                 }
                 wiwismegatrees$growMegaTree(state, level, pos, generator, random, holderOpt, cir);
             }
+            case "mangrove" -> {
+                var holderOpt = registry.getHolder(ModConfiguredFeatures.MANGROVE_MEGA_TREE_KEY);
+
+                if (holderOpt.isEmpty()) {
+                    WiwisMegaTrees.LOGGER.error("mega_mangrove configured feature not found");
+                    return;
+                }
+                wiwismegatrees$growMegaTree(state, level, pos, generator, random, holderOpt, cir);
+            }
         }
     }
 
@@ -95,11 +105,18 @@ public abstract class TreeGrowerMixin {
 
     @Unique
     private static void wiwismegatrees$clearSaplings(ServerLevel level, BlockPos pos, int dx, int dz) {
-        BlockState air = Blocks.AIR.defaultBlockState();
-        level.setBlock(pos.offset(dx, 0, dz), air, 4);
-        level.setBlock(pos.offset(dx + 1, 0, dz), air, 4);
-        level.setBlock(pos.offset(dx, 0, dz + 1), air, 4);
-        level.setBlock(pos.offset(dx + 1, 0, dz + 1), air, 4);
+        if (level.getBlockState(pos).getBlock() instanceof MangrovePropaguleBlock) {
+            level.destroyBlock(pos.offset(dx, 0, dz), false);
+            level.destroyBlock(pos.offset(dx + 1, 0, dz), false);
+            level.destroyBlock(pos.offset(dx, 0, dz + 1), false);
+            level.destroyBlock(pos.offset(dx + 1, 0, dz + 1), false);
+        } else {
+            BlockState air = Blocks.AIR.defaultBlockState();
+            level.setBlock(pos.offset(dx, 0, dz), air, 4);
+            level.setBlock(pos.offset(dx + 1, 0, dz), air, 4);
+            level.setBlock(pos.offset(dx, 0, dz + 1), air, 4);
+            level.setBlock(pos.offset(dx + 1, 0, dz + 1), air, 4);
+        }
     }
 
     @Unique
