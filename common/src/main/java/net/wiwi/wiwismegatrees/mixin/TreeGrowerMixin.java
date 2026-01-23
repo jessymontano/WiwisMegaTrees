@@ -44,35 +44,48 @@ public abstract class TreeGrowerMixin {
     ) {
         var registry = level.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE);
 
-        if (this.name.equals("oak")) {
-            var holderOpt = registry.getHolder(ModConfiguredFeatures.OAK_MEGA_TREE_KEY);
+        switch (this.name) {
+            case "oak" -> {
+                var holderOpt = registry.getHolder(ModConfiguredFeatures.OAK_MEGA_TREE_KEY);
 
-            if (holderOpt.isEmpty()) {
-                WiwisMegaTrees.LOGGER.error("mega_oak configured feature not found");
-                return;
+                if (holderOpt.isEmpty()) {
+                    WiwisMegaTrees.LOGGER.error("mega_oak configured feature not found");
+                    return;
+                }
+                wiwismegatrees$growMegaTree(state, level, pos, generator, random, holderOpt, cir);
             }
-            growMegaTree(state, level, pos, generator, random, holderOpt, cir);
-        } else if (this.name.equals("birch")) {
-            var holderOpt = registry.getHolder(ModConfiguredFeatures.BIRCH_MEGA_TREE_KEY);
+            case "birch" -> {
+                var holderOpt = registry.getHolder(ModConfiguredFeatures.BIRCH_MEGA_TREE_KEY);
 
-            if (holderOpt.isEmpty()) {
-                WiwisMegaTrees.LOGGER.error("mega_birch configured feature not found");
-                return;
+                if (holderOpt.isEmpty()) {
+                    WiwisMegaTrees.LOGGER.error("mega_birch configured feature not found");
+                    return;
+                }
+                wiwismegatrees$growMegaTree(state, level, pos, generator, random, holderOpt, cir);
             }
-            growMegaTree(state, level, pos, generator, random, holderOpt, cir);
-        } else if (this.name.equals("acacia")) {
-            var holderOpt = registry.getHolder(ModConfiguredFeatures.ACACIA_MEGA_TREE_KEY);
+            case "acacia" -> {
+                var holderOpt = registry.getHolder(ModConfiguredFeatures.ACACIA_MEGA_TREE_KEY);
 
-            if (holderOpt.isEmpty()) {
-                WiwisMegaTrees.LOGGER.error("mega_acacia configured feature not found");
-                return;
+                if (holderOpt.isEmpty()) {
+                    WiwisMegaTrees.LOGGER.error("mega_acacia configured feature not found");
+                    return;
+                }
+                wiwismegatrees$growMegaTree(state, level, pos, generator, random, holderOpt, cir);
             }
-            growMegaTree(state, level, pos, generator, random, holderOpt, cir);
+            case "cherry" -> {
+                var holderOpt = registry.getHolder(ModConfiguredFeatures.CHERRY_MEGA_TREE_KEY);
+
+                if (holderOpt.isEmpty()) {
+                    WiwisMegaTrees.LOGGER.error("mega_cherry configured feature not found");
+                    return;
+                }
+                wiwismegatrees$growMegaTree(state, level, pos, generator, random, holderOpt, cir);
+            }
         }
     }
 
     @Unique
-    private static boolean isTwoByTwo(BlockState state, BlockGetter level, BlockPos pos, int dx, int dz) {
+    private static boolean wiwismegatrees$isTwoByTwo(BlockState state, BlockGetter level, BlockPos pos, int dx, int dz) {
         Block block = state.getBlock();
         return level.getBlockState(pos.offset(dx, 0, dz)).is(block)
                 && level.getBlockState(pos.offset(dx + 1, 0, dz)).is(block)
@@ -81,7 +94,7 @@ public abstract class TreeGrowerMixin {
     }
 
     @Unique
-    private static void clearSaplings(ServerLevel level, BlockPos pos, int dx, int dz) {
+    private static void wiwismegatrees$clearSaplings(ServerLevel level, BlockPos pos, int dx, int dz) {
         BlockState air = Blocks.AIR.defaultBlockState();
         level.setBlock(pos.offset(dx, 0, dz), air, 4);
         level.setBlock(pos.offset(dx + 1, 0, dz), air, 4);
@@ -90,7 +103,7 @@ public abstract class TreeGrowerMixin {
     }
 
     @Unique
-    private static void restoreSaplings(ServerLevel level, BlockPos pos, BlockState state, int dx, int dz) {
+    private static void wiwismegatrees$restoreSaplings(ServerLevel level, BlockPos pos, BlockState state, int dx, int dz) {
         level.setBlock(pos.offset(dx, 0, dz), state, 4);
         level.setBlock(pos.offset(dx + 1, 0, dz), state, 4);
         level.setBlock(pos.offset(dx, 0, dz + 1), state, 4);
@@ -98,12 +111,12 @@ public abstract class TreeGrowerMixin {
     }
 
     @Unique
-    private static void growMegaTree(BlockState state, ServerLevel level, BlockPos pos, ChunkGenerator generator, RandomSource random, Optional<Holder.Reference<ConfiguredFeature<?, ?>>> holderOpt, CallbackInfoReturnable<Boolean> cir) {
+    private static void wiwismegatrees$growMegaTree(BlockState state, ServerLevel level, BlockPos pos, ChunkGenerator generator, RandomSource random, Optional<Holder.Reference<ConfiguredFeature<?, ?>>> holderOpt, CallbackInfoReturnable<Boolean> cir) {
         for (int dx = 0; dx >= -1; dx--) {
             for (int dz = 0; dz >= -1; dz--) {
-                if (isTwoByTwo(state, level, pos, dx, dz)) {
+                if (wiwismegatrees$isTwoByTwo(state, level, pos, dx, dz)) {
 
-                    clearSaplings(level, pos, dx, dz);
+                    wiwismegatrees$clearSaplings(level, pos, dx, dz);
 
                     ConfiguredFeature<?, ?> feature = holderOpt.get().value();
 
@@ -111,7 +124,7 @@ public abstract class TreeGrowerMixin {
 
                     if (!success) {
                         WiwisMegaTrees.LOGGER.error("Failed to generate mega tree");
-                        restoreSaplings(level, pos, state, dx, dz);
+                        wiwismegatrees$restoreSaplings(level, pos, state, dx, dz);
                     }
 
                     cir.setReturnValue(success);

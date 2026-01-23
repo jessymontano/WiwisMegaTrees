@@ -4,9 +4,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.*;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -16,18 +14,18 @@ import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSi
 import net.minecraft.world.level.levelgen.feature.foliageplacers.*;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.GiantTrunkPlacer;
-import net.minecraft.world.level.levelgen.feature.trunkplacers.MegaJungleTrunkPlacer;
 import net.wiwi.wiwismegatrees.WiwisMegaTrees;
 import net.wiwi.wiwismegatrees.worldgen.tree.custom.foliageplacers.MegaAcaciaFoliagePlacer;
 import net.wiwi.wiwismegatrees.worldgen.tree.custom.trunkplacers.MegaAcaciaTrunkPlacer;
+import net.wiwi.wiwismegatrees.worldgen.tree.custom.trunkplacers.MegaCherryTrunkPlacer;
 import net.wiwi.wiwismegatrees.worldgen.tree.custom.trunkplacers.MegaOakTrunkPlacer;
 
-import java.sql.Blob;
 
 public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> OAK_MEGA_TREE_KEY = registerKey("mega_oak");
     public static final ResourceKey<ConfiguredFeature<?, ?>> BIRCH_MEGA_TREE_KEY = registerKey("mega_birch");
     public static final ResourceKey<ConfiguredFeature<?, ?>> ACACIA_MEGA_TREE_KEY = registerKey("mega_acacia");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CHERRY_MEGA_TREE_KEY = registerKey("mega_cherry");
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
         // mega oak tree feature
@@ -63,6 +61,14 @@ public class ModConfiguredFeatures {
                 new TwoLayersFeatureSize(1, 1, 2)
         ).dirt(BlockStateProvider.simple(Blocks.DIRT)).ignoreVines().build());
 
+        // mega cherry tree feature
+        register(context, CHERRY_MEGA_TREE_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
+                BlockStateProvider.simple(Blocks.CHERRY_LOG),
+                new MegaCherryTrunkPlacer(8, 3, 6),
+                BlockStateProvider.simple(Blocks.CHERRY_LEAVES),
+                new CherryFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), ConstantInt.of(4), 0.25F, 0.5F, 0.16666667F, 0.33333334F),
+                new TwoLayersFeatureSize(1, 1, 2)
+        ).dirt(BlockStateProvider.simple(Blocks.DIRT)).ignoreVines().build());
     }
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name){

@@ -6,6 +6,7 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.wiwi.wiwismegatrees.PlatformHandler;
 import net.wiwi.wiwismegatrees.WiwisMegaTrees;
 import net.wiwi.wiwismegatrees.worldgen.tree.custom.trunkplacers.MegaAcaciaTrunkPlacer;
+import net.wiwi.wiwismegatrees.worldgen.tree.custom.trunkplacers.MegaCherryTrunkPlacer;
 import net.wiwi.wiwismegatrees.worldgen.tree.custom.trunkplacers.MegaOakTrunkPlacer;
 
 import java.util.function.Supplier;
@@ -15,6 +16,8 @@ public class ModTrunkPlacers {
            register("mega_oak_trunk_placer", MegaOakTrunkPlacer.CODEC);
     public static final Supplier<TrunkPlacerType<MegaAcaciaTrunkPlacer>> MEGA_ACACIA_TRUNK_PLACER =
             register("mega_acacia_trunk_placer", MegaAcaciaTrunkPlacer.CODEC);
+    public static final Supplier<TrunkPlacerType<MegaCherryTrunkPlacer>> MEGA_CHERRY_TRUNK_PLACER =
+            register("mega_cherry_trunk_placer", MegaCherryTrunkPlacer.CODEC);
 
     private static <T extends TrunkPlacer> Supplier<TrunkPlacerType<T>> register(String key, MapCodec<T> codec) {
         return PlatformHandler.INSTANCE.registerTrunkPlacerType(key, codec);
