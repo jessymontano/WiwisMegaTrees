@@ -9,15 +9,19 @@
       }
     },
     "foliage_placer": {
-      "type": "minecraft:fancy_foliage_placer",
-      "height": 3,
+      "type": "minecraft:cherry_foliage_placer",
+      "corner_hole_chance": 0.25,
+      "hanging_leaves_chance": 0.16666667,
+      "hanging_leaves_extension_chance": 0.33333334,
+      "height": 4,
       "offset": 0,
-      "radius": 3
+      "radius": 2,
+      "wide_bottom_layer_hole_chance": 0.25
     },
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "minecraft:oak_leaves",
+        "Name": "minecraft:cherry_leaves",
         "Properties": {
           "distance": "7",
           "persistent": "false",
@@ -34,15 +38,15 @@
       "upper_size": 2
     },
     "trunk_placer": {
-      "type": "wiwismegatrees:mega_oak_trunk_placer",
-      "base_height": 9,
-      "height_rand_a": 2,
-      "height_rand_b": 4
+      "type": "wiwismegatrees:mega_cherry_trunk_placer",
+      "base_height": 8,
+      "height_rand_a": 3,
+      "height_rand_b": 6
     },
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "minecraft:oak_log",
+        "Name": "minecraft:cherry_log",
         "Properties": {
           "axis": "y"
         }

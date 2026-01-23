@@ -9,15 +9,14 @@
       }
     },
     "foliage_placer": {
-      "type": "minecraft:fancy_foliage_placer",
-      "height": 3,
+      "type": "wiwismegatrees:mega_acacia_foliage_placer",
       "offset": 0,
       "radius": 3
     },
     "foliage_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "minecraft:oak_leaves",
+        "Name": "minecraft:acacia_leaves",
         "Properties": {
           "distance": "7",
           "persistent": "false",
@@ -34,15 +33,15 @@
       "upper_size": 2
     },
     "trunk_placer": {
-      "type": "wiwismegatrees:mega_oak_trunk_placer",
-      "base_height": 9,
+      "type": "wiwismegatrees:mega_acacia_trunk_placer",
+      "base_height": 6,
       "height_rand_a": 2,
       "height_rand_b": 4
     },
     "trunk_provider": {
       "type": "minecraft:simple_state_provider",
       "state": {
-        "Name": "minecraft:oak_log",
+        "Name": "minecraft:acacia_log",
         "Properties": {
           "axis": "y"
         }
