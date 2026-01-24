@@ -11,7 +11,7 @@ authors = "lisarins"
 description = '''
 Adds mega tree variants for all vanilla trees
 '''
-#logoFile = ""
+logoFile = "assets/wiwismegatrees/icon.png"
 
 [[dependencies.wiwismegatrees]]
 modId = "neoforge"
