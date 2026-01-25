@@ -4,6 +4,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 
 import net.wiwi.wiwismegatrees.WiwisMegaTrees;
+import net.wiwi.wiwismegatrees.neoforge.datagen.DataGenerators;
 import net.wiwi.wiwismegatrees.worldgen.tree.custom.ModFoliagePlacers;
 import net.wiwi.wiwismegatrees.worldgen.tree.custom.ModTrunkPlacers;
 

@@ -43,11 +43,11 @@ public abstract class TreeGrowerMixin {
             RandomSource random,
             CallbackInfoReturnable<Boolean> cir
     ) {
-        var registry = level.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE);
+        var registry = level.registryAccess().lookupOrThrow(Registries.CONFIGURED_FEATURE);
 
         switch (this.name) {
             case "oak" -> {
-                var holderOpt = registry.getHolder(ModConfiguredFeatures.OAK_MEGA_TREE_KEY);
+                var holderOpt = registry.get(ModConfiguredFeatures.OAK_MEGA_TREE_KEY);
 
                 if (holderOpt.isEmpty()) {
                     WiwisMegaTrees.LOGGER.error("mega_oak configured feature not found");
@@ -56,7 +56,7 @@ public abstract class TreeGrowerMixin {
                 wiwismegatrees$growMegaTree(state, level, pos, generator, random, holderOpt, cir);
             }
             case "birch" -> {
-                var holderOpt = registry.getHolder(ModConfiguredFeatures.BIRCH_MEGA_TREE_KEY);
+                var holderOpt = registry.get(ModConfiguredFeatures.BIRCH_MEGA_TREE_KEY);
 
                 if (holderOpt.isEmpty()) {
                     WiwisMegaTrees.LOGGER.error("mega_birch configured feature not found");
@@ -65,7 +65,7 @@ public abstract class TreeGrowerMixin {
                 wiwismegatrees$growMegaTree(state, level, pos, generator, random, holderOpt, cir);
             }
             case "acacia" -> {
-                var holderOpt = registry.getHolder(ModConfiguredFeatures.ACACIA_MEGA_TREE_KEY);
+                var holderOpt = registry.get(ModConfiguredFeatures.ACACIA_MEGA_TREE_KEY);
 
                 if (holderOpt.isEmpty()) {
                     WiwisMegaTrees.LOGGER.error("mega_acacia configured feature not found");
@@ -74,7 +74,7 @@ public abstract class TreeGrowerMixin {
                 wiwismegatrees$growMegaTree(state, level, pos, generator, random, holderOpt, cir);
             }
             case "cherry" -> {
-                var holderOpt = registry.getHolder(ModConfiguredFeatures.CHERRY_MEGA_TREE_KEY);
+                var holderOpt = registry.get(ModConfiguredFeatures.CHERRY_MEGA_TREE_KEY);
 
                 if (holderOpt.isEmpty()) {
                     WiwisMegaTrees.LOGGER.error("mega_cherry configured feature not found");
@@ -83,7 +83,7 @@ public abstract class TreeGrowerMixin {
                 wiwismegatrees$growMegaTree(state, level, pos, generator, random, holderOpt, cir);
             }
             case "mangrove" -> {
-                var holderOpt = registry.getHolder(ModConfiguredFeatures.MANGROVE_MEGA_TREE_KEY);
+                var holderOpt = registry.get(ModConfiguredFeatures.MANGROVE_MEGA_TREE_KEY);
 
                 if (holderOpt.isEmpty()) {
                     WiwisMegaTrees.LOGGER.error("mega_mangrove configured feature not found");
