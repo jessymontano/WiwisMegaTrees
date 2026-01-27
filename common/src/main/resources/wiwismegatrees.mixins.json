@@ -1,12 +1,12 @@
 {
   "required": true,
   "package": "net.wiwi.wiwismegatrees.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "client": [
   ],
   "mixins": [
-    "TreeGrowerMixin"
+    "AbstractTreeGrowerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

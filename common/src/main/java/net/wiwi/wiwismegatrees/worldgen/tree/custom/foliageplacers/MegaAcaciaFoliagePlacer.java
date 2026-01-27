@@ -1,6 +1,6 @@
 package net.wiwi.wiwismegatrees.worldgen.tree.custom.foliageplacers;
 
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -13,7 +13,7 @@ import net.wiwi.wiwismegatrees.worldgen.tree.custom.ModFoliagePlacers;
 import org.jetbrains.annotations.NotNull;
 
 public class MegaAcaciaFoliagePlacer extends FoliagePlacer {
-    public static final MapCodec<MegaAcaciaFoliagePlacer> CODEC = RecordCodecBuilder.mapCodec((instance) -> foliagePlacerParts(instance).apply(instance, MegaAcaciaFoliagePlacer::new));
+    public static final Codec<MegaAcaciaFoliagePlacer> CODEC = RecordCodecBuilder.create((instance) -> foliagePlacerParts(instance).apply(instance, MegaAcaciaFoliagePlacer::new));
 
     public MegaAcaciaFoliagePlacer(IntProvider intProvider, IntProvider intProvider2) {
         super(intProvider, intProvider2);

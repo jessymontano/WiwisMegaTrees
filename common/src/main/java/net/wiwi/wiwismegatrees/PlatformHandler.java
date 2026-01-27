@@ -1,6 +1,6 @@
 package net.wiwi.wiwismegatrees;
 
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.Codec;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
@@ -17,17 +17,17 @@ public interface PlatformHandler {
 
     <T extends TrunkPlacer> Supplier<TrunkPlacerType<T>> registerTrunkPlacerType(
             String id,
-            MapCodec<T> codec
+            Codec<T> codec
     );
 
     <T extends FoliagePlacer> Supplier<FoliagePlacerType<T>> registerFoliagePlacerType(
             String id,
-            MapCodec<T> codec
+            Codec<T> codec
     );
 
     enum Platform {
         FABRIC,
-        NEOFORGE
+        FORGE
     }
     Platform getPlatform();
 

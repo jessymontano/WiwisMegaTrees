@@ -1,6 +1,6 @@
 package net.wiwi.wiwismegatrees.worldgen.tree.custom;
 
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.Codec;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.wiwi.wiwismegatrees.PlatformHandler;
@@ -22,7 +22,7 @@ public class ModTrunkPlacers {
     public static final Supplier<TrunkPlacerType<MegaMangroveTrunkPlacer>> MEGA_MANGROVE_TRUNK_PLACER =
             register("mega_mangrove_trunk_placer", MegaMangroveTrunkPlacer.CODEC);
 
-    private static <T extends TrunkPlacer> Supplier<TrunkPlacerType<T>> register(String key, MapCodec<T> codec) {
+    private static <T extends TrunkPlacer> Supplier<TrunkPlacerType<T>> register(String key, Codec<T> codec) {
         return PlatformHandler.INSTANCE.registerTrunkPlacerType(key, codec);
     }
 

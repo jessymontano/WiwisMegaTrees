@@ -1,6 +1,6 @@
 package net.wiwi.wiwismegatrees.worldgen.tree.custom.trunkplacers;
 
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 public class MegaAcaciaTrunkPlacer extends GiantTrunkPlacer {
-    public static MapCodec<MegaAcaciaTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec(
+    public static Codec<MegaAcaciaTrunkPlacer> CODEC = RecordCodecBuilder.create(
             ( instance ) -> trunkPlacerParts(instance).apply(instance, MegaAcaciaTrunkPlacer::new));
 
     public MegaAcaciaTrunkPlacer(int i, int j, int k) {

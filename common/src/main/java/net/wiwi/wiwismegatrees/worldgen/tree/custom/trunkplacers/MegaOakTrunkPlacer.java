@@ -1,7 +1,7 @@
 package net.wiwi.wiwismegatrees.worldgen.tree.custom.trunkplacers;
 
 import com.google.common.collect.Lists;
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 public class MegaOakTrunkPlacer extends GiantTrunkPlacer {
-    public static final MapCodec<MegaOakTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec(
+    public static final Codec<MegaOakTrunkPlacer> CODEC = RecordCodecBuilder.create(
             (instance) -> trunkPlacerParts(instance).apply(instance, MegaOakTrunkPlacer::new));
 
     public MegaOakTrunkPlacer(int i, int j, int k) {
