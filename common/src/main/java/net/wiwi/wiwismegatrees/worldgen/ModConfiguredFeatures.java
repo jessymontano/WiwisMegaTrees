@@ -3,10 +3,11 @@ package net.wiwi.wiwismegatrees.worldgen;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.*;
 import net.minecraft.world.level.block.Block;
@@ -98,7 +99,7 @@ public class ModConfiguredFeatures {
                         Optional.empty(),
                         new MangroveRootPlacement(
                                 blocks.getOrThrow(BlockTags.MANGROVE_ROOTS_CAN_GROW_THROUGH),
-                                HolderSet.direct(Block::builtInRegistryHolder, new Block[]{Blocks.MUD, Blocks.MUDDY_MANGROVE_ROOTS, Blocks.DIRT}),
+                                HolderSet.direct(BuiltInRegistries.BLOCK::wrapAsHolder, Blocks.MUD, Blocks.MUDDY_MANGROVE_ROOTS, Blocks.DIRT),
                                 BlockStateProvider.simple(Blocks.MUDDY_MANGROVE_ROOTS), 12, 25, 0.35F))),
                 new TwoLayersFeatureSize(2, 0, 2)
         ).decorators(List.of(new LeaveVineDecorator(0.125F),
@@ -108,11 +109,11 @@ public class ModConfiguredFeatures {
     }
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name){
-        return ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(WiwisMegaTrees.MOD_ID, name));
+        return ResourceKey.create(Registries.CONFIGURED_FEATURE, Identifier.fromNamespaceAndPath(WiwisMegaTrees.MOD_ID, name));
     }
 
-    private static <FC extends FeatureConfiguration, F extends Feature<FC>> void register(BootstrapContext<ConfiguredFeature<?, ?>> context,
-                                                                                          ResourceKey<ConfiguredFeature<?, ?>> key, F feature, FC configuration) {
+    private static <FC extends FeatureConfiguration, F extends Feature<@org.jetbrains.annotations.NotNull FC>> void register(BootstrapContext<ConfiguredFeature<?, ?>> context,
+                                                                                                                             ResourceKey<ConfiguredFeature<?, ?>> key, F feature, FC configuration) {
         context.register(key, new ConfiguredFeature<>(feature, configuration));
     }
 }
