@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelSimulatedReader;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
@@ -35,16 +36,16 @@ public class MegaMangroveTrunkPlacer extends TrunkPlacer {
     }
 
     @Override
-    public @NotNull List<FoliagePlacer.FoliageAttachment> placeTrunk(@NotNull LevelSimulatedReader levelSimulatedReader, @NotNull BiConsumer<BlockPos, BlockState> biConsumer, @NotNull RandomSource randomSource, int height, @NotNull BlockPos blockPos, @NotNull TreeConfiguration treeConfiguration) {
+    public @NotNull List<FoliagePlacer.FoliageAttachment> placeTrunk(@NotNull WorldGenLevel level, @NotNull BiConsumer<BlockPos, BlockState> biConsumer, @NotNull RandomSource randomSource, int height, @NotNull BlockPos blockPos, @NotNull TreeConfiguration treeConfiguration) {
         List<FoliagePlacer.FoliageAttachment> list = Lists.newArrayList();
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
 
         for(int j = 0; j < height; ++j) {
-            this.placeLogIfFreeWithOffset(levelSimulatedReader, biConsumer, randomSource, mutableBlockPos, treeConfiguration, blockPos, 0, j, 0);
+            this.placeLogIfFreeWithOffset(level, biConsumer, randomSource, mutableBlockPos, treeConfiguration, blockPos, 0, j, 0);
             if (j < height - 1) {
-                this.placeLogIfFreeWithOffset(levelSimulatedReader, biConsumer, randomSource, mutableBlockPos, treeConfiguration, blockPos, 1, j, 0);
-                this.placeLogIfFreeWithOffset(levelSimulatedReader, biConsumer, randomSource, mutableBlockPos, treeConfiguration, blockPos, 1, j, 1);
-                this.placeLogIfFreeWithOffset(levelSimulatedReader, biConsumer, randomSource, mutableBlockPos, treeConfiguration, blockPos, 0, j, 1);
+                this.placeLogIfFreeWithOffset(level, biConsumer, randomSource, mutableBlockPos, treeConfiguration, blockPos, 1, j, 0);
+                this.placeLogIfFreeWithOffset(level, biConsumer, randomSource, mutableBlockPos, treeConfiguration, blockPos, 1, j, 1);
+                this.placeLogIfFreeWithOffset(level, biConsumer, randomSource, mutableBlockPos, treeConfiguration, blockPos, 0, j, 1);
             }
         }
 
@@ -65,7 +66,7 @@ public class MegaMangroveTrunkPlacer extends TrunkPlacer {
 
                 BlockPos pos = blockPos.offset(k, y, l);
 
-                this.placeLog(levelSimulatedReader, biConsumer, randomSource, pos, treeConfiguration, (blockState) -> blockState.trySetValue(RotatedPillarBlock.AXIS, this.getLogAxis(blockPos, pos)));
+                this.placeLog(level, biConsumer, randomSource, pos, treeConfiguration, (blockState) -> blockState.trySetValue(RotatedPillarBlock.AXIS, this.getLogAxis(blockPos, pos)));
 
                 if (m == branchLength / 2 || m == branchLength - 1) {
                     list.add(new FoliagePlacer.FoliageAttachment(
@@ -96,8 +97,8 @@ public class MegaMangroveTrunkPlacer extends TrunkPlacer {
         return axis;
     }
 
-    private void placeLogIfFreeWithOffset(LevelSimulatedReader levelSimulatedReader, BiConsumer<BlockPos, BlockState> biConsumer, RandomSource randomSource, BlockPos.MutableBlockPos mutableBlockPos, TreeConfiguration treeConfiguration, BlockPos blockPos, int i, int j, int k) {
+    private void placeLogIfFreeWithOffset(WorldGenLevel level, BiConsumer<BlockPos, BlockState> biConsumer, RandomSource randomSource, BlockPos.MutableBlockPos mutableBlockPos, TreeConfiguration treeConfiguration, BlockPos blockPos, int i, int j, int k) {
         mutableBlockPos.setWithOffset(blockPos, i, j, k);
-        this.placeLogIfFree(levelSimulatedReader, biConsumer, randomSource, mutableBlockPos, treeConfiguration);
+        this.placeLogIfFree(level, biConsumer, randomSource, mutableBlockPos, treeConfiguration);
     }
 }

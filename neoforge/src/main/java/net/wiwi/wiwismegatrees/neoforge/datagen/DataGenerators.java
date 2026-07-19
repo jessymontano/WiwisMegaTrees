@@ -13,11 +13,11 @@ import java.util.concurrent.CompletableFuture;
 @EventBusSubscriber(modid = WiwisMegaTrees.MOD_ID)
 public class DataGenerators {
     @SubscribeEvent
-    public static void gatherData(GatherDataEvent event) {
+    public static void gatherData(GatherDataEvent.Server event) {
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-        generator.addProvider(event.includeServer(), new NeoForgeDatapackProvider(packOutput, lookupProvider));
+        generator.addProvider(true, new NeoForgeDatapackProvider(packOutput, lookupProvider));
     }
 }

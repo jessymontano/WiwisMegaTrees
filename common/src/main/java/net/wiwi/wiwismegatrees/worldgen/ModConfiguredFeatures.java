@@ -6,7 +6,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.*;
 import net.minecraft.world.level.block.Block;
@@ -56,7 +56,7 @@ public class ModConfiguredFeatures {
                         3
                 ),
                 new TwoLayersFeatureSize(1, 1, 2)
-        ).dirt(BlockStateProvider.simple(Blocks.DIRT)).ignoreVines().build());
+        ).ignoreVines().build());
 
         // mega birch tree feature
         register(context, BIRCH_MEGA_TREE_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
@@ -67,7 +67,7 @@ public class ModConfiguredFeatures {
                         ConstantInt.of(2), ConstantInt.of(0), 4
                 ),
                 new TwoLayersFeatureSize(1, 1, 2)
-        ).dirt(BlockStateProvider.simple(Blocks.DIRT)).ignoreVines().build());
+        ).ignoreVines().build());
 
         // mega acacia tree feature
         register(context, ACACIA_MEGA_TREE_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
@@ -76,7 +76,7 @@ public class ModConfiguredFeatures {
                 BlockStateProvider.simple(Blocks.ACACIA_LEAVES),
                 new MegaAcaciaFoliagePlacer(ConstantInt.of(3), ConstantInt.of(0)),
                 new TwoLayersFeatureSize(1, 1, 2)
-        ).dirt(BlockStateProvider.simple(Blocks.DIRT)).ignoreVines().build());
+        ).ignoreVines().build());
 
         // mega cherry tree feature
         register(context, CHERRY_MEGA_TREE_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
@@ -85,7 +85,7 @@ public class ModConfiguredFeatures {
                 BlockStateProvider.simple(Blocks.CHERRY_LEAVES),
                 new CherryFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), ConstantInt.of(4), 0.25F, 0.5F, 0.16666667F, 0.33333334F),
                 new TwoLayersFeatureSize(1, 1, 2)
-        ).dirt(BlockStateProvider.simple(Blocks.DIRT)).ignoreVines().build());
+        ).ignoreVines().build());
 
         // mega mangrove tree feature
         register(context, MANGROVE_MEGA_TREE_KEY, Feature.TREE, new TreeConfiguration.TreeConfigurationBuilder(
@@ -100,7 +100,8 @@ public class ModConfiguredFeatures {
                                 blocks.getOrThrow(BlockTags.MANGROVE_ROOTS_CAN_GROW_THROUGH),
                                 HolderSet.direct(Block::builtInRegistryHolder, new Block[]{Blocks.MUD, Blocks.MUDDY_MANGROVE_ROOTS, Blocks.DIRT}),
                                 BlockStateProvider.simple(Blocks.MUDDY_MANGROVE_ROOTS), 12, 25, 0.35F))),
-                new TwoLayersFeatureSize(2, 0, 2)
+                new TwoLayersFeatureSize(2, 0, 2),
+                TreeConfiguration.PLACE_BELOW_OVERWORLD_TRUNKS
         ).decorators(List.of(new LeaveVineDecorator(0.125F),
                 new AttachedToLeavesDecorator(0.14F, 1, 0,
                         new RandomizedIntStateProvider(BlockStateProvider.simple(Blocks.MANGROVE_PROPAGULE.defaultBlockState().setValue(MangrovePropaguleBlock.HANGING, true)),
@@ -108,7 +109,7 @@ public class ModConfiguredFeatures {
     }
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name){
-        return ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(WiwisMegaTrees.MOD_ID, name));
+        return ResourceKey.create(Registries.CONFIGURED_FEATURE, Identifier.fromNamespaceAndPath(WiwisMegaTrees.MOD_ID, name));
     }
 
     private static <FC extends FeatureConfiguration, F extends Feature<FC>> void register(BootstrapContext<ConfiguredFeature<?, ?>> context,

@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.LevelSimulatedReader;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
@@ -25,12 +26,12 @@ public class MegaAcaciaFoliagePlacer extends FoliagePlacer {
     }
 
     @Override
-    protected void createFoliage(@NotNull LevelSimulatedReader levelSimulatedReader, @NotNull FoliageSetter foliageSetter, @NotNull RandomSource randomSource, @NotNull TreeConfiguration treeConfiguration, int i, FoliageAttachment foliageAttachment, int j, int k, int l) {
+    protected void createFoliage(WorldGenLevel level, FoliageSetter foliageSetter, RandomSource random, TreeConfiguration config, int treeHeight, FoliageAttachment foliageAttachment, int foliageHeight, int leafRadius, int offset) {
         boolean bl = foliageAttachment.doubleTrunk();
-        BlockPos blockPos = foliageAttachment.pos().above(l);
-        this.placeLeavesRow(levelSimulatedReader, foliageSetter, randomSource, treeConfiguration, blockPos, k , -1 - j, bl);
-        this.placeLeavesRow(levelSimulatedReader, foliageSetter, randomSource, treeConfiguration, blockPos, k - 1, -j, bl);
-        this.placeLeavesRow(levelSimulatedReader, foliageSetter, randomSource, treeConfiguration, blockPos, k  - 1, 0, bl);
+        BlockPos blockPos = foliageAttachment.pos().above(offset);
+        this.placeLeavesRow(level, foliageSetter, random, config, blockPos, leafRadius, - 1 - foliageHeight, bl);
+        this.placeLeavesRow(level, foliageSetter, random, config, blockPos, leafRadius - 1, - foliageHeight, bl);
+        this.placeLeavesRow(level, foliageSetter, random, config, blockPos, leafRadius - 1, 0, bl);
     }
 
     @Override

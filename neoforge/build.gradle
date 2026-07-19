@@ -37,7 +37,7 @@ dependencies {
     // Architectury API. This is optional, and you can comment it out if you don't need it.
     // modImplementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
 
-    common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
+    common(project(path: ':common')) { transitive = false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 }
 
@@ -54,13 +54,12 @@ sourceSets {
 loom {
     runs {
         data {
-            data()
+            client()
 
             // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
             // gameDirectory = project.file('run-data')
-
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            programArgs.addAll '--mod', 'wiwismegatrees', '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+            programArgs '--mod', 'wiwismegatrees', '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
         }
     }
 }
@@ -78,8 +77,4 @@ processResources {
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
-}
-
-remapJar {
-    inputFile.set shadowJar.archiveFile
 }
