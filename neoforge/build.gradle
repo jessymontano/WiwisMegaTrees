@@ -70,11 +70,20 @@ processResources {
     filesMatching('META-INF/neoforge.mods.toml') {
         expand version: inputs.properties.version
     }
-
+    from project(":common").sourceSets.main.resources
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.withType(Jar).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+jar {
+    archiveClassifier = 'slim'
 }
 
 shadowJar {
     configurations = [project.configurations.shadowBundle]
-    archiveClassifier = 'dev-shadow'
+    archiveClassifier = ''
+    dependsOn jar
 }
