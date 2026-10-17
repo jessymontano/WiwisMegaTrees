@@ -73,4 +73,9 @@ subprojects {
             // retrieving dependencies.
         }
     }
+
+    tasks.withType(Jar).configureEach {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        exclude "**/.cache/**"
+    }
 }
